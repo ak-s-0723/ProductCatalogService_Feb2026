@@ -12,4 +12,5 @@ public class Product extends BaseModel {
     private Double price;
     private Category category;
     private Long quantity;
+    private Boolean isPrimeSaleSpecific;
 }
