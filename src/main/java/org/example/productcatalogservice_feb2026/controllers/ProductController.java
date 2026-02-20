@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController   //Because I want spring to create bean(singleton object) of ProductController
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -22,10 +23,15 @@ public class ProductController {
 
 
     //To Get Product Details By Id
-    @GetMapping("/products/{id}")  //Variables are specified in braces
+    @GetMapping("{id}")  //Variables are specified in braces
     public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long productId) {
+        if(productId <= 0) {
+            throw new IllegalArgumentException("Please pass productId greater than 0");
+           // return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
        Product product = productService.getProductById(productId);
-       if(product == null) return null;
+       if(product == null) throw new RuntimeException("Product is not available");
        ProductDto  productDto = from(product);
        ResponseEntity<ProductDto> responseEntity =
                new ResponseEntity<>(productDto, HttpStatus.OK);
@@ -33,7 +39,7 @@ public class ProductController {
 
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("{id}")
     public ProductDto replaceProduct(@PathVariable Long id, @RequestBody ProductDto input) {
        Product inputProduct = from(input);
        Product output = productService.replaceProduct(id, inputProduct);
@@ -41,7 +47,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("/products")
+    @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto product) {
         return null;
     }
