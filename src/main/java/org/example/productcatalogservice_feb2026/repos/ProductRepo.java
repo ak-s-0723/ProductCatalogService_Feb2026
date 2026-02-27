@@ -16,4 +16,11 @@ public interface ProductRepo extends JpaRepository<Product,Long> {
         Product save(Product product);
 
         void deleteById(Long id);
+
+        List<Product> findProductByPriceBetween(Double low, Double high);
+
+       // List<Product> findAllOrderByPrice(); WRONG SYNTAX
+        List<Product> findAllByOrderByPrice();
+
+        //ToDo : Run Custom Queries via Jpa
 }
