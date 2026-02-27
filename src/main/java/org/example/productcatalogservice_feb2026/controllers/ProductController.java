@@ -6,9 +6,13 @@ import org.example.productcatalogservice_feb2026.models.Category;
 import org.example.productcatalogservice_feb2026.models.Product;
 import org.example.productcatalogservice_feb2026.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController   //Because I want spring to create bean(singleton object) of ProductController
 @RequestMapping("/products")
@@ -49,7 +53,25 @@ public class ProductController {
 
     @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto product) {
-        return null;
+        Product input = from(product);
+        Product response = productService.addProduct(input);
+        return from(response);
+    }
+
+    @GetMapping
+    public List<ProductDto> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        List<ProductDto> productDtos = new ArrayList<>();
+        for(Product product : products) {
+            productDtos.add(from(product));
+        }
+
+        return productDtos;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 
     private ProductDto from(Product product) {
