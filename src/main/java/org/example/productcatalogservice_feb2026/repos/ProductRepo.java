@@ -2,6 +2,7 @@ package org.example.productcatalogservice_feb2026.repos;
 
 import org.example.productcatalogservice_feb2026.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,5 +23,11 @@ public interface ProductRepo extends JpaRepository<Product,Long> {
        // List<Product> findAllOrderByPrice(); WRONG SYNTAX
         List<Product> findAllByOrderByPrice();
 
-        //ToDo : Run Custom Queries via Jpa
+       @Query("SELECT c.name from Product p join Category c on p.category.id=c.id where p.id=?1")
+       String getCategoryNameCorrespondingToProductId(Long id);
+
+       // Will error out
+//    @Query("SELECT c.name from Product p join Category c on p.category.id=c.id where p.id=:product")
+//    String getCategoryNameCorrespondingToProduct(Product product);
+
 }
