@@ -29,9 +29,11 @@ public class ProductController {
     //To Get Product Details By Id
     @GetMapping("{id}")  //Variables are specified in braces
     public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long productId) {
-        if(productId <= 0) {
+        if(productId == 0) {
             throw new IllegalArgumentException("Please pass productId greater than 0");
            // return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else if(productId < 0) {
+            throw new IllegalArgumentException("INVALID PRODUCT ID");
         }
 
        Product product = productService.getProductById(productId);
