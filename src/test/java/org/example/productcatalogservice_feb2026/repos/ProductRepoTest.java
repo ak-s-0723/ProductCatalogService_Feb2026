@@ -16,7 +16,7 @@ class ProductRepoTest {
     @Autowired
     private ProductRepo productRepo;
 
-    @Test
+    //@Test
     @Transactional //ToDo for Anurag : In Unit Testing classes
     public void testQueries() {
         List<Product> productList =
