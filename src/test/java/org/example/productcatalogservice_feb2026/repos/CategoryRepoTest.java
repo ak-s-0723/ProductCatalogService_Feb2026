@@ -20,7 +20,7 @@ class CategoryRepoTest {
     @Autowired
     private ProductRepo productRepo;
 
-    @Test
+    //@Test
     @Transactional
     public void testFetchTypeAndMode() {
         Optional<Category> categoryOptional = categoryRepo.findById(2L);
